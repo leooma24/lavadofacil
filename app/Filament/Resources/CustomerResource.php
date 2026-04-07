@@ -79,29 +79,47 @@ class CustomerResource extends Resource
                 Tables\Filters\Filter::make('vip')->label('Solo VIP')->query(fn ($q) => $q->where('is_vip', true)),
             ])
             ->actions([
-                // Botón WhatsApp — abre wa.me con plantilla bienvenida
-                Tables\Actions\Action::make('whatsapp')
+                Tables\Actions\ActionGroup::make([
+                    self::makeWhatsAppAction('welcome', 'Bienvenida', 'heroicon-o-hand-raised'),
+                    self::makeWhatsAppAction('reminder', 'Recordatorio', 'heroicon-o-bell'),
+                    self::makeWhatsAppAction('birthday', 'Cumpleaños', 'heroicon-o-cake'),
+                    self::makeWhatsAppAction('reactivation', 'Reactivación', 'heroicon-o-arrow-path'),
+                    self::makeWhatsAppAction('card_complete', 'Tarjeta lista', 'heroicon-o-trophy'),
+                    self::makeWhatsAppAction('raffle_winner', 'Ganador rifa', 'heroicon-o-gift'),
+                ])
                     ->label('WhatsApp')
                     ->icon('heroicon-o-chat-bubble-left-ellipsis')
                     ->color('success')
-                    ->visible(fn (Customer $r) => !empty($r->phone) && $r->whatsapp_opt_in)
-                    ->url(function (Customer $customer) {
-                        $template = MessageTemplate::where('channel', 'whatsapp')
-                            ->where('type', 'welcome')
-                            ->where('is_active', true)
-                            ->first();
-
-                        if ($template) {
-                            return WhatsAppLinkBuilder::fromTemplate($template, $customer);
-                        }
-
-                        $msg = "Hola {$customer->name}, gracias por elegirnos 🚗";
-                        return WhatsAppLinkBuilder::quick($customer, $msg);
-                    }, shouldOpenInNewTab: true),
+                    ->visible(fn (Customer $r) => ! empty($r->phone) && $r->whatsapp_opt_in)
+                    ->button(),
 
                 Tables\Actions\EditAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    /**
+     * Crea un Action que abre wa.me con el contenido de la plantilla del tipo dado.
+     * Si la plantilla no existe, usa un fallback genérico.
+     */
+    protected static function makeWhatsAppAction(string $type, string $label, string $icon): Tables\Actions\Action
+    {
+        return Tables\Actions\Action::make("wa_{$type}")
+            ->label($label)
+            ->icon($icon)
+            ->url(function (Customer $customer) use ($type) {
+                $template = MessageTemplate::where('channel', 'whatsapp')
+                    ->where('type', $type)
+                    ->where('is_active', true)
+                    ->first();
+
+                if ($template) {
+                    return WhatsAppLinkBuilder::fromTemplate($template, $customer);
+                }
+
+                $fallback = "Hola {$customer->name} 👋";
+                return WhatsAppLinkBuilder::quick($customer, $fallback);
+            }, shouldOpenInNewTab: true);
     }
 
     public static function getPages(): array

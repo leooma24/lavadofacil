@@ -11,9 +11,10 @@ return [
     'domain_model' => Domain::class,
 
     /**
-     * The list of domains hosting your central app.
-     *
-     * Only relevant if you're using the domain or subdomain identification middleware.
+     * Path-based tenancy: el dominio es ÚNICO. Tenants se identifican por
+     * el primer segmento del path (ej: lavadofacil.tu-app.co/lavadodemo/...).
+     * Mantenemos central_domains para compatibilidad con código heredado
+     * que aún consulta config('tenancy.central_domains').
      */
     'central_domains' => [
         env('CENTRAL_DOMAIN', 'lavadofacil.test'),
@@ -138,7 +139,7 @@ return [
          * disable asset() helper tenancy and explicitly use tenant_asset() calls in places
          * where you want to use tenant-specific assets (product images, avatars, etc).
          */
-        'asset_helper_tenancy' => true,
+        'asset_helper_tenancy' => false,
     ],
 
     /**

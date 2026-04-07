@@ -2,21 +2,27 @@
 
 namespace App\Models\Tenant;
 
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Customer extends Model
+class Customer extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
+
     protected $fillable = [
-        'name', 'phone', 'email', 'birthdate', 'level',
+        'name', 'phone', 'pin_code', 'email', 'birthdate', 'level',
         'total_visits', 'total_spent', 'points_balance',
         'current_streak', 'longest_streak', 'last_streak_date',
         'last_visit_at', 'registered_at', 'referred_by_id',
         'whatsapp_opt_in', 'is_vip', 'vip_until',
         'notes', 'tags',
     ];
+
+    protected $hidden = ['pin_code', 'remember_token'];
 
     protected $casts = [
         'birthdate' => 'date',

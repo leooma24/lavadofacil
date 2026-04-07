@@ -8,26 +8,28 @@ LavadoFácil is a multitenant SaaS for car wash loyalty programs. Each car wash 
 
 ## URLs
 
+**Path-based tenancy** (no subdominios — GoDaddy no soporta wildcards anidados, así que el slug del tenant va como segmento de path).
+
 | Context | URL local | URL prod (futuro) |
 |---------|-----------|-------------------|
 | Landing pública | `lavadofacil.test` | `lavadofacil.tu-app.co` |
 | SuperAdmin | `lavadofacil.test/central` | `lavadofacil.tu-app.co/central` |
-| PWA cliente | `{slug}.lavadofacil.test` | `{slug}.lavadofacil.tu-app.co` |
-| Panel dueño | `{slug}.lavadofacil.test/admin` | `{slug}.lavadofacil.tu-app.co/admin` |
+| PWA cliente | `lavadofacil.test/{slug}` | `lavadofacil.tu-app.co/{slug}` |
+| Panel dueño | `lavadofacil.test/{slug}/admin` | `lavadofacil.tu-app.co/{slug}/admin` |
 
 ## Credenciales seed
 
 | Panel | URL | Email | Password |
 |-------|-----|-------|----------|
 | SuperAdmin | `/central` | admin@lavadofacil.com | password |
-| Dueño tenant demo | `lavadodemo.lavadofacil.test/admin` | leooma24@gmail.com | password |
+| Dueño tenant demo | `lavadofacil.test/lavadodemo/admin` | leooma24@gmail.com | password |
 
 ## Decisiones críticas (NO cambiar sin pedir)
 
 1. **WhatsApp = wa.me MANUAL** (NO Meta Cloud API). Usa `App\Services\WhatsAppLinkBuilder`. Botones en Filament abren WhatsApp Web con mensaje pre-llenado vía `Action::make()->url(...)->openUrlInNewTab()`. Audit en `whatsapp_messages` cuando dueño marca "Enviado".
 2. **Plantillas para todo:** tabla `message_templates` con `channel ENUM('whatsapp','email')`. Editables desde admin.
 3. **Solo local primero:** validar todo en `lavadofacil.test` antes de desplegar a `lavadofacil.tu-app.co`.
-4. **Tenant ID = slug** (no UUID). Por eso `Tenant::getIncrementing()` retorna `false`. NO cambiar a UUID.
+4. **Tenant ID = slug** (no UUID). Por eso `Tenant::getIncrementing()` retorna `false`. NO cambiar a UUID. El slug también es el primer segmento del path en las URLs (path-based tenancy).
 5. **Nombre de BD del tenant:** `tenant_{slug}` (ej: `tenant_lavadodemo`). Configurado en `config/tenancy.php` con prefix `tenant_`.
 
 ## Estructura clave

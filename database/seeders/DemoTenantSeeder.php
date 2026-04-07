@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Plan;
 use App\Models\Tenant;
+use Database\Seeders\Tenant\TenantDemoDataSeeder;
 use Illuminate\Database\Seeder;
 
 class DemoTenantSeeder extends Seeder
@@ -29,16 +30,19 @@ class DemoTenantSeeder extends Seeder
             ]
         );
 
-        // Create domains for both local and prod
-        if (!$tenant->domains()->where('domain', 'lavadodemo.lavadofacil.test')->exists()) {
-            $tenant->domains()->create(['domain' => 'lavadodemo.lavadofacil.test']);
-        }
-        if (!$tenant->domains()->where('domain', 'lavadodemo.lavadofacil.tu-app.co')->exists()) {
-            $tenant->domains()->create(['domain' => 'lavadodemo.lavadofacil.tu-app.co']);
-        }
+        // Path-based tenancy: ya no se crean domains. El slug ES el identificador
+        // y vive como segmento de path en la URL del dominio central.
 
         $this->command->info("✓ Tenant demo creado: lavadodemo (BD: tenant_lavadodemo)");
-        $this->command->info("  → http://lavadodemo.lavadofacil.test");
-        $this->command->info("  → http://lavadodemo.lavadofacil.test/admin");
+        $this->command->info("  → http://lavadofacil.test/lavadodemo");
+        $this->command->info("  → http://lavadofacil.test/lavadodemo/admin");
+
+        // Sembrar data demo dentro del contexto del tenant
+        tenancy()->initialize($tenant);
+        try {
+            $this->call(TenantDemoDataSeeder::class);
+        } finally {
+            tenancy()->end();
+        }
     }
 }

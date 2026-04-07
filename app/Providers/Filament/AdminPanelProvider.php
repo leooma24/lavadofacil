@@ -10,19 +10,20 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
-use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
+use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 
 /**
  * Panel del DUEÑO del car wash.
- * Vive en {slug}.lavadofacil.test/admin
+ * Vive en lavadofacil.tu-app.co/{tenant}/admin (path-based tenancy).
  * Usa la BD del tenant (no la central).
  * Login con tabla `users` (no `central_users`).
  */
@@ -32,12 +33,25 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->id('admin')
-            ->path('admin')
+            ->path('{tenant}/admin')
             ->login()
             ->brandName('LavadoFácil')
+            ->brandLogo(asset('images/lavadofacil_logo.png'))
+            ->brandLogoHeight('2.5rem')
+            ->favicon(asset('images/lavadofacil_icon.png'))
+            ->darkMode(true)
+            ->sidebarCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Cyan,
+                'gray' => Color::Slate,
+                'success' => Color::Emerald,
+                'warning' => Color::Amber,
+                'danger' => Color::Rose,
             ])
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn () => Blade::render('@include("filament.custom-theme")'),
+            )
             ->authGuard('web')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -46,9 +60,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                \App\Filament\Widgets\OverviewStats::class,
+                \App\Filament\Widgets\RevenueChart::class,
+                \App\Filament\Widgets\TopCustomers::class,
+                \App\Filament\Widgets\TodayAppointments::class,
             ])
             ->middleware([
+                InitializeTenancyByPath::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
@@ -58,8 +76,6 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                InitializeTenancyByDomain::class,
-                PreventAccessFromCentralDomains::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

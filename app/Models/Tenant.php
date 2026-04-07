@@ -49,12 +49,14 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         'status',
         'trial_ends_at',
         'subscription_ends_at',
+        'enabled_features',
     ];
 
     protected $casts = [
         'trial_ends_at' => 'datetime',
         'subscription_ends_at' => 'datetime',
         'data' => 'array',
+        'enabled_features' => 'array',
     ];
 
     public static function getCustomColumns(): array
@@ -74,6 +76,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'status',
             'trial_ends_at',
             'subscription_ends_at',
+            'enabled_features',
         ];
     }
 
