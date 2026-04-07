@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\InitializeTenancyForLivewire;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Stancl\Tenancy\Events\TenancyInitialized;
-use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,21 +35,21 @@ class AppServiceProvider extends ServiceProvider
         // Livewire update route corre globalmente y NO pasa por los middleware
         // del PanelProvider. Hay que registrarla manualmente con el middleware
         // de tenancy para que Filament admin del tenant funcione (login, CRUDs).
-        // Patrón canónico stancl + Filament path-based: registrar la ruta de
-        // Livewire DENTRO del prefijo {tenant} para que InitializeTenancyByPath
-        // pueda resolver el tenant del segmento del path (no del Referer).
-        // Sin esto, las requests Livewire del panel del tenant llegan a una
-        // ruta sin contexto y Filament muestra "Session expired".
+        // Livewire update route GLOBAL en /livewire/update.
+        // Si la registráramos bajo /{tenant}/livewire/update, las páginas del
+        // panel CENTRAL romperían al renderizar (URL::route('livewire.update')
+        // exige el param {tenant} que no existe en contexto central).
+        //
+        // En su lugar, InitializeTenancyForLivewire detecta el tenant a partir
+        // del header Referer (que sí trae la URL completa con el slug) y lo
+        // inicializa ANTES que StartSession para que la sesión se lea de la
+        // BD del tenant correcto.
         Livewire::setUpdateRoute(function ($handle) {
-            return Route::post('/{tenant}/livewire/update', $handle)
+            return Route::post('/livewire/update', $handle)
                 ->middleware([
+                    InitializeTenancyForLivewire::class,
                     'web',
-                    InitializeTenancyByPath::class,
                 ]);
-        });
-
-        Livewire::setScriptRoute(function ($handle) {
-            return Route::get('/livewire/livewire.js', $handle);
         });
     }
 }
