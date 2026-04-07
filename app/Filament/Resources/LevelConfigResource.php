@@ -70,12 +70,12 @@ class LevelConfigResource extends Resource
                 Tables\Columns\TextColumn::make('sort_order')->label('#'),
                 Tables\Columns\TextColumn::make('level')
                     ->label('Nivel')
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'bronze' => '🥉 Bronce',
                         'silver' => '🥈 Plata',
                         'gold' => '🥇 Oro',
                         'platinum' => '💎 Platino',
-                        default => $s,
+                        default => $state,
                     }),
                 Tables\Columns\TextColumn::make('min_visits')->label('Visitas min')->sortable(),
                 Tables\Columns\TextColumn::make('min_spent')->label('Gasto min')->money('MXN')->sortable(),

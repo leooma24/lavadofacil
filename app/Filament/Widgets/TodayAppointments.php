@@ -30,7 +30,7 @@ class TodayAppointments extends BaseWidget
             Tables\Columns\TextColumn::make('customer.name')->label('Cliente')->limit(20),
             Tables\Columns\TextColumn::make('type')
                 ->label('')
-                ->formatStateUsing(fn ($s) => $s === 'at_home' ? '🏠' : '🏪'),
+                ->formatStateUsing(fn ($state) => $state === 'at_home' ? '🏠' : '🏪'),
             Tables\Columns\BadgeColumn::make('status')
                 ->label('Estado')
                 ->colors([

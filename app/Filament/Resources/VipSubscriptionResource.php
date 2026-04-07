@@ -69,8 +69,8 @@ class VipSubscriptionResource extends Resource
                 Tables\Columns\TextColumn::make('monthly_price')->label('Precio')->money('MXN'),
                 Tables\Columns\TextColumn::make('washes_used')
                     ->label('Lavados')
-                    ->formatStateUsing(fn ($s, VipSubscription $r) => $r->washes_included
-                        ? "{$s} / {$r->washes_included}"
+                    ->formatStateUsing(fn ($state, VipSubscription $record) => $record->washes_included
+                        ? "{$s} / {$record->washes_included}"
                         : "{$s} / ∞"),
                 Tables\Columns\TextColumn::make('ends_at')->label('Vence')->date('d/m/Y')->sortable(),
                 Tables\Columns\BadgeColumn::make('status')
@@ -79,7 +79,7 @@ class VipSubscriptionResource extends Resource
                         'danger' => 'cancelled',
                         'gray' => 'expired',
                     ])
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'active' => 'Activa',
                         'cancelled' => 'Cancelada',
                         'expired' => 'Expirada',

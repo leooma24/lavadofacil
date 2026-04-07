@@ -37,7 +37,7 @@ class ReferralResource extends Resource
                         'info' => 'converted',
                         'success' => 'rewarded',
                     ])
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'pending' => 'Pendiente',
                         'converted' => 'Convertido',
                         'rewarded' => 'Recompensado',

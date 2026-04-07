@@ -69,14 +69,14 @@ class PrizeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Premio')->searchable(),
                 Tables\Columns\TextColumn::make('type')->label('Tipo')->badge()
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'free_wash' => '🚿 Lavado gratis',
                         'discount_pct' => '% Descuento',
                         'discount_amount' => '$ Descuento',
                         'product' => '🎁 Producto',
                         'cash' => '💵 Efectivo',
                         'custom' => 'Otro',
-                        default => $s,
+                        default => $state,
                     }),
                 Tables\Columns\TextColumn::make('value')->label('Valor'),
                 Tables\Columns\TextColumn::make('probability_weight')->label('Peso')->badge()->color('warning'),

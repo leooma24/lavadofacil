@@ -66,7 +66,7 @@ class RaffleResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('Rifa')->searchable(),
                 Tables\Columns\TextColumn::make('month')
                     ->label('Periodo')
-                    ->formatStateUsing(fn ($state, Raffle $r) => sprintf('%02d/%d', $state, $r->year)),
+                    ->formatStateUsing(fn ($state, Raffle $record) => sprintf('%02d/%d', $state, $record->year)),
                 Tables\Columns\TextColumn::make('prize_description')->label('Premio')->limit(40),
                 Tables\Columns\TextColumn::make('tickets_count')
                     ->label('Tickets')
@@ -80,7 +80,7 @@ class RaffleResource extends Resource
                         'warning' => 'drawn',
                         'gray' => 'closed',
                     ])
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'active' => 'Activa',
                         'drawn' => 'Sorteada',
                         'closed' => 'Cerrada',
@@ -93,7 +93,7 @@ class RaffleResource extends Resource
                     ->label('Sortear')
                     ->icon('heroicon-o-sparkles')
                     ->color('warning')
-                    ->visible(fn (Raffle $r) => $r->status === 'active')
+                    ->visible(fn (Raffle $record) => $record->status === 'active')
                     ->requiresConfirmation()
                     ->modalHeading('Sortear ganador')
                     ->modalDescription('Se elegirá al azar uno de los tickets emitidos. Esta acción no se puede deshacer.')

@@ -79,7 +79,7 @@ class ChallengeResource extends Resource
                     ->badge(),
                 Tables\Columns\TextColumn::make('month')
                     ->label('Periodo')
-                    ->formatStateUsing(fn ($s, MonthlyChallenge $r) => sprintf('%02d/%d', $s, $r->year)),
+                    ->formatStateUsing(fn ($state, MonthlyChallenge $record) => sprintf('%02d/%d', $state, $record->year)),
                 Tables\Columns\IconColumn::make('is_active')->label('Activo')->boolean(),
             ])
             ->actions([

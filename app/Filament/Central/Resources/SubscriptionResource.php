@@ -73,12 +73,12 @@ class SubscriptionResource extends Resource
                         'warning' => 'trial',
                         'danger' => ['past_due', 'cancelled'],
                     ])
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'active' => 'Activa',
                         'past_due' => 'Vencida',
                         'cancelled' => 'Cancelada',
                         'trial' => 'En prueba',
-                        default => $s,
+                        default => $state,
                     }),
             ])
             ->filters([

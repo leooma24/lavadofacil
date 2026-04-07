@@ -65,12 +65,12 @@ class Ranking extends Page implements HasTable
                 Tables\Columns\TextColumn::make('level')
                     ->label('Nivel')
                     ->badge()
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'bronze' => '🥉 Bronce',
                         'silver' => '🥈 Plata',
                         'gold' => '🥇 Oro',
                         'platinum' => '💎 Platino',
-                        default => $s,
+                        default => $state,
                     }),
                 Tables\Columns\TextColumn::make('visits_month')->label('Visitas mes')->sortable(),
                 Tables\Columns\TextColumn::make('spent_month')->label('Gastado mes')

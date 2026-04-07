@@ -104,7 +104,7 @@ class AppointmentResource extends Resource
                 Tables\Columns\TextColumn::make('service.name')->label('Servicio')->limit(30),
                 Tables\Columns\TextColumn::make('type')
                     ->label('Modalidad')
-                    ->formatStateUsing(fn ($s) => $s === 'at_home' ? '🏠 Domicilio' : '🏪 Lavado')
+                    ->formatStateUsing(fn ($state) => $state === 'at_home' ? '🏠 Domicilio' : '🏪 Lavado')
                     ->badge(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Estado')

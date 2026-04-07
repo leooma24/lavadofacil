@@ -48,7 +48,7 @@ class WhatsAppInbox extends Page implements HasTable
                 Tables\Columns\TextColumn::make('type')
                     ->label('Motivo')
                     ->badge()
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'birthday' => '🎂 Cumpleaños',
                         'stamp_reminder' => '🎯 Faltan sellos',
                         'reactivation' => '😢 Reactivación',
@@ -56,7 +56,7 @@ class WhatsAppInbox extends Page implements HasTable
                         'low_rating_alert' => '⚠️ Mala calificación',
                         'card_complete' => '🏆 Tarjeta lista',
                         'raffle_winner' => '🎁 Ganador rifa',
-                        default => $s,
+                        default => $state,
                     })
                     ->color(fn ($state) => match ($state) {
                         'low_rating_alert' => 'danger',

@@ -130,13 +130,13 @@ class VisitResource extends Resource
                 Tables\Columns\TextColumn::make('customer.name')->label('Cliente')->searchable(),
                 Tables\Columns\TextColumn::make('total')->label('Total')->money('MXN')->sortable(),
                 Tables\Columns\TextColumn::make('payment_method')->label('Pago')->badge()
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'cash' => 'Efectivo',
                         'card' => 'Tarjeta',
                         'transfer' => 'Transfer',
                         'vip' => 'VIP',
                         'package' => 'Paquete',
-                        default => $s,
+                        default => $state,
                     }),
                 Tables\Columns\TextColumn::make('earned_stamps')->label('Sellos')->badge()->color('warning'),
                 Tables\Columns\TextColumn::make('servedBy.name')->label('Atendió'),

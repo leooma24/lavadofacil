@@ -36,7 +36,7 @@ class InvoiceResource extends Resource
                 Forms\Components\Select::make('subscription_id')
                     ->label('Suscripción')
                     ->options(fn () => Subscription::with('tenant')->get()
-                        ->mapWithKeys(fn ($s) => [$s->id => "#{$s->id} — {$s->tenant?->name}"])),
+                        ->mapWithKeys(fn ($state) => [$s->id => "#{$s->id} — {$s->tenant?->name}"])),
                 Forms\Components\TextInput::make('invoice_number')->label('Folio')->required()->default(fn () => 'INV-'.now()->format('Ymd-His')),
                 Forms\Components\TextInput::make('amount')->label('Monto')->prefix('$')->numeric()->required(),
                 Forms\Components\TextInput::make('currency')->label('Moneda')->default('MXN')->maxLength(3),
@@ -68,12 +68,12 @@ class InvoiceResource extends Resource
                         'warning' => 'pending',
                         'danger' => ['overdue', 'cancelled'],
                     ])
-                    ->formatStateUsing(fn ($s) => match ($s) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'paid' => 'Pagada',
                         'pending' => 'Pendiente',
                         'overdue' => 'Vencida',
                         'cancelled' => 'Cancelada',
-                        default => $s,
+                        default => $state,
                     }),
                 Tables\Columns\TextColumn::make('paid_at')->label('Pagada')->date('d/m/Y'),
                 Tables\Columns\TextColumn::make('created_at')->label('Creada')->date('d/m/Y')->sortable(),
