@@ -33,7 +33,7 @@ class TenantResource extends Resource
                     ->label('Slug (subdominio)')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->helperText('Será {slug}.lavadofacil.test')
+                    ->helperText('URL: ' . rtrim(config('app.url'), '/') . '/{slug}')
                     ->disabled(fn ($context) => $context === 'edit'),
                 Forms\Components\TextInput::make('owner_name')->label('Nombre del dueño')->required(),
                 Forms\Components\TextInput::make('owner_email')->label('Email del dueño')->email()->required(),
@@ -66,8 +66,8 @@ class TenantResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Negocio')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('slug')->label('Subdominio')->searchable()
-                    ->formatStateUsing(fn ($state) => $state . '.lavadofacil.test')
+                Tables\Columns\TextColumn::make('slug')->label('URL')->searchable()
+                    ->formatStateUsing(fn ($state) => rtrim(config('app.url'), '/') . '/' . $state)
                     ->copyable(),
                 Tables\Columns\TextColumn::make('owner_name')->label('Dueño'),
                 Tables\Columns\TextColumn::make('owner_phone')->label('Teléfono'),
@@ -102,7 +102,7 @@ class TenantResource extends Resource
                     ->label('Visitar')
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->color('info')
-                    ->url(fn (Tenant $record) => 'http://' . $record->slug . '.lavadofacil.test', true),
+                    ->url(fn (Tenant $record) => rtrim(config('app.url'), '/') . '/' . $record->slug, true),
                 Tables\Actions\EditAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
