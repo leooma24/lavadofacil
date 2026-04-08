@@ -98,11 +98,16 @@ class TenantResource extends Resource
                     ->options(Plan::pluck('name', 'id')),
             ])
             ->actions([
-                Tables\Actions\Action::make('visit')
-                    ->label('Visitar')
-                    ->icon('heroicon-o-arrow-top-right-on-square')
+                Tables\Actions\Action::make('visit_app')
+                    ->label('App')
+                    ->icon('heroicon-o-device-phone-mobile')
                     ->color('info')
                     ->url(fn (Tenant $record) => rtrim(config('app.url'), '/') . '/' . $record->slug, true),
+                Tables\Actions\Action::make('visit_admin')
+                    ->label('Admin')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->color('warning')
+                    ->url(fn (Tenant $record) => rtrim(config('app.url'), '/') . '/' . $record->slug . '/admin', true),
                 Tables\Actions\EditAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
