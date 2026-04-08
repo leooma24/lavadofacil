@@ -16,6 +16,23 @@
     <style>
         :root { --brand: {{ tenant()->primary_color ?? '#10b981' }}; }
         html, body { background: #0a0a0a; color: #fafafa; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; max-width: 100vw; }
+        /* Mesh + grid decorativo fijo detrás del contenido */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: -2; pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(14,165,233,0.18), transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(6,182,212,0.15), transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(59,130,246,0.12), transparent 50%);
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.35;
+            background-image:
+                linear-gradient(rgba(14,165,233,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14,165,233,0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
         .text-brand { color: var(--brand); }
         .bg-brand { background-color: var(--brand); }
         .border-brand { border-color: var(--brand); }
