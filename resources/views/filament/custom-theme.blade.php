@@ -585,10 +585,26 @@ html, body, .fi-body, .fi-layout {
     /* Forms: 1 columna siempre, menos padding */
     .fi-fo-component-ctn { padding: 0 !important; }
 
-    /* Sidebar full screen overlay cuando se abre (mejor UX que push) */
+    /* Sidebar en mobile: overlay amplio con sombra fuerte */
     .fi-sidebar {
+        width: 85vw !important;
+        max-width: 320px !important;
         box-shadow: 10px 0 50px rgba(0,0,0,0.5) !important;
     }
+    .fi-sidebar .fi-sidebar-nav { padding: 0.75rem 0.6rem !important; }
+    .fi-sidebar-item-button { padding: 0.7rem 0.8rem !important; font-size: 0.9rem !important; }
+
+    /* Inputs: ancho completo, texto que no se corte */
+    .fi-input, .fi-select-input, .fi-textarea {
+        width: 100% !important;
+        min-width: 0 !important;
+        font-size: 16px !important; /* evita zoom en iOS al hacer focus */
+    }
+    .fi-fo-field-wrp { min-width: 0 !important; }
+    .fi-fo-component-ctn > * { min-width: 0 !important; }
+
+    /* Grid de forms: siempre 1 columna en mobile para que nada se corte */
+    .fi-fo-component-ctn .grid { grid-template-columns: 1fr !important; }
 
     /* Topbar más compacto */
     .fi-topbar > nav { padding: 0.5rem 0.75rem !important; }
