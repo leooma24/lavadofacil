@@ -6,6 +6,7 @@ use App\Models\Tenant\MessageTemplate;
 use App\Models\Tenant\Prize;
 use App\Models\Tenant\Service;
 use App\Services\Features;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -121,7 +122,7 @@ class Onboarding extends Page implements HasForms
                             TextInput::make('business_name')
                                 ->label('Nombre del negocio')
                                 ->required(),
-                            TextInput::make('primary_color')
+                            ColorPicker::make('primary_color')
                                 ->label('Color principal')
                                 ->helperText('Se usará en la PWA del cliente y los botones del panel'),
                         ]),
