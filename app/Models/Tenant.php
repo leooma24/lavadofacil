@@ -50,11 +50,13 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         'trial_ends_at',
         'subscription_ends_at',
         'enabled_features',
+        'onboarding_completed_at',
     ];
 
     protected $casts = [
         'trial_ends_at' => 'datetime',
         'subscription_ends_at' => 'datetime',
+        'onboarding_completed_at' => 'datetime',
         'data' => 'array',
         'enabled_features' => 'array',
     ];
@@ -77,6 +79,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'trial_ends_at',
             'subscription_ends_at',
             'enabled_features',
+            'onboarding_completed_at',
         ];
     }
 

@@ -81,6 +81,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
                 \App\Http\Middleware\ForcePasswordChange::class,
+                \App\Http\Middleware\ForceOnboarding::class,
             ]);
     }
 }
