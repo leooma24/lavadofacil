@@ -35,6 +35,7 @@ class CentralPanelProvider extends PanelProvider
             ->id('central')
             ->path('central')
             ->login()
+            ->profile()
             ->brandName('LavadoFácil — Central')
             ->brandLogo(asset('images/lavadofacil_logo.png'))
             ->brandLogoHeight('2.5rem')
