@@ -553,38 +553,51 @@ html, body, .fi-body, .fi-layout {
 /* ═══════════════════════════════════════════════════════════
    MOBILE — SOLO forms (sin tocar layout general)
    ═══════════════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-    /* Main content a full-width en mobile/tablet: quitar el padding que
-       Filament reserva para el sidebar cuando está colapsado en desktop */
-    .fi-main-ctn, .fi-main {
-        padding-left: 0 !important;
+@media (max-width: 1023px) {
+    /* Especificidad alta con html.fi body para ganarle a Filament + Tailwind */
+    html body .fi-main-ctn,
+    html body div.fi-main-ctn,
+    html body .fi-page > .fi-main,
+    html body .fi-main {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
         margin-left: 0 !important;
         max-width: 100vw !important;
-        width: 100% !important;
+        width: 100vw !important;
     }
-    .fi-topbar { padding-left: 0 !important; margin-left: 0 !important; }
-    .fi-layout { padding-left: 0 !important; }
-    /* Secciones, forms y contenedores internos a full width */
-    .fi-section, .fi-fo-component-ctn, .fi-page, .fi-resource-edit-record-page, .fi-resource-view-record-page {
+    html body .fi-topbar > nav,
+    html body .fi-topbar {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        margin-left: 0 !important;
+    }
+    html body .fi-layout {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+    /* Sections / forms */
+    html body .fi-section,
+    html body .fi-fo-component-ctn,
+    html body .fi-page {
         width: 100% !important;
         max-width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+        min-width: 0 !important;
     }
-}
-
-@media (max-width: 768px) {
-    /* Inputs no se cortan: ancho completo y min-width 0 para que el grid respete */
-    .fi-input, .fi-select-input, .fi-textarea {
+    /* Inputs full width */
+    html body .fi-input,
+    html body .fi-select-input,
+    html body .fi-textarea {
         width: 100% !important;
         min-width: 0 !important;
-        font-size: 16px !important; /* evita zoom auto en iOS */
+        font-size: 16px !important;
     }
-    .fi-fo-field-wrp, .fi-fo-component-ctn > * { min-width: 0 !important; }
-    /* Grids del form: 1 columna en mobile para que nada se corte */
-    .fi-fo-component-ctn .grid { grid-template-columns: 1fr !important; }
-    /* Main content con padding horizontal razonable (sin margen del sidebar) */
-    .fi-main { padding: 1rem !important; }
+    html body .fi-fo-field-wrp,
+    html body .fi-fo-component-ctn > * { min-width: 0 !important; }
+    /* Grids del form: 1 columna */
+    html body .fi-fo-component-ctn .grid,
+    html body .fi-section .grid {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 /* Dark mode toggle button */
