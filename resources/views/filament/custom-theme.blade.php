@@ -564,6 +564,13 @@ html, body, .fi-body, .fi-layout {
     }
     .fi-topbar { padding-left: 0 !important; margin-left: 0 !important; }
     .fi-layout { padding-left: 0 !important; }
+    /* Secciones, forms y contenedores internos a full width */
+    .fi-section, .fi-fo-component-ctn, .fi-page, .fi-resource-edit-record-page, .fi-resource-view-record-page {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
 }
 
 @media (max-width: 768px) {
