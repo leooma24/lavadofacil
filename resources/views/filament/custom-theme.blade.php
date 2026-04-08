@@ -553,6 +553,19 @@ html, body, .fi-body, .fi-layout {
 /* ═══════════════════════════════════════════════════════════
    MOBILE — SOLO forms (sin tocar layout general)
    ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    /* Main content a full-width en mobile/tablet: quitar el padding que
+       Filament reserva para el sidebar cuando está colapsado en desktop */
+    .fi-main-ctn, .fi-main {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+    }
+    .fi-topbar { padding-left: 0 !important; margin-left: 0 !important; }
+    .fi-layout { padding-left: 0 !important; }
+}
+
 @media (max-width: 768px) {
     /* Inputs no se cortan: ancho completo y min-width 0 para que el grid respete */
     .fi-input, .fi-select-input, .fi-textarea {
@@ -563,6 +576,8 @@ html, body, .fi-body, .fi-layout {
     .fi-fo-field-wrp, .fi-fo-component-ctn > * { min-width: 0 !important; }
     /* Grids del form: 1 columna en mobile para que nada se corte */
     .fi-fo-component-ctn .grid { grid-template-columns: 1fr !important; }
+    /* Main content con padding horizontal razonable (sin margen del sidebar) */
+    .fi-main { padding: 1rem !important; }
 }
 
 /* Dark mode toggle button */
