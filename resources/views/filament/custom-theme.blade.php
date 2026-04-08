@@ -553,7 +553,24 @@ html, body, .fi-body, .fi-layout {
 /* ═══════════════════════════════════════════════════════════
    MOBILE — SOLO forms (sin tocar layout general)
    ═══════════════════════════════════════════════════════════ */
+/* CRÍTICO: forzar que el layout NO se vuelva más ancho que el viewport,
+   porque si algo tiene min-width grande (sidebar desktop) el zoom-out de
+   Chrome mobile bloquea las media queries. */
+html, body {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+}
+
 @media (max-width: 1023px) {
+    /* Sidebar fuera del flow en mobile: posición fija, oculto por default,
+       no afecta el ancho del layout principal */
+    html body .fi-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        z-index: 50 !important;
+    }
     /* Especificidad alta con html.fi body para ganarle a Filament + Tailwind */
     html body .fi-main-ctn,
     html body div.fi-main-ctn,
