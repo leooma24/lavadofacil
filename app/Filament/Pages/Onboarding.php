@@ -116,7 +116,7 @@ class Onboarding extends Page implements HasForms
                             Placeholder::make('intro')
                                 ->label('')
                                 ->content(new HtmlString(
-                                    '<div class="text-lg font-semibold">¡Bienvenido a LavadoFácil! 🚗</div>'
+                                    '<div class="text-lg font-semibold">¡Bienvenido a LavadoFácil!</div>'
                                     . '<p class="mt-2 text-sm opacity-80">Vamos a configurar tu negocio en unos minutos. Podrás cambiar todo después desde el panel.</p>'
                                 )),
                             TextInput::make('business_name')
@@ -206,7 +206,7 @@ class Onboarding extends Page implements HasForms
                                     Textarea::make('body')->label('Mensaje')->rows(4)->required(),
                                     Toggle::make('is_active')->label('Activa')->default(true),
                                 ])
-                                ->itemLabel(fn (array $state): ?string => ($state['is_active'] ?? false ? '✅ ' : '⬜ ') . ($state['name'] ?? ''))
+                                ->itemLabel(fn (array $state): ?string => ($state['is_active'] ?? false ? '● ' : '○ ') . ($state['name'] ?? ''))
                                 ->collapsed()
                                 ->addable(false)
                                 ->deletable(false)
@@ -221,7 +221,7 @@ class Onboarding extends Page implements HasForms
                             Placeholder::make('done')
                                 ->label('')
                                 ->content(new HtmlString(
-                                    '<div class="text-lg font-semibold">Todo listo 🎉</div>'
+                                    '<div class="text-lg font-semibold">Todo listo</div>'
                                     . '<p class="mt-2 text-sm opacity-80">Tu negocio ya está configurado. Al hacer clic en <strong>Terminar</strong> serás llevado al escritorio.</p>'
                                 )),
                         ]),
