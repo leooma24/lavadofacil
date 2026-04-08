@@ -505,6 +505,16 @@ html, body, .fi-body, .fi-layout {
     border: 1px solid rgba(15, 23, 42, 0.06) !important;
     backdrop-filter: blur(20px);
     box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15) !important;
+    z-index: 50 !important;
+}
+
+/* El dropdown del user menu debe quedar por encima del grid overlay */
+.fi-topbar {
+    z-index: 40 !important;
+}
+.fi-dropdown, .fi-user-menu {
+    position: relative;
+    z-index: 41;
 }
 
 .fi-tabs {
