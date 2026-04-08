@@ -96,16 +96,16 @@ class TenantInitialDataSeeder extends Seeder
 
         // ═══ WHATSAPP TEMPLATES ═══
         $whatsappTemplates = [
-            ['type' => 'welcome', 'name' => 'Bienvenida', 'body' => "¡Hola *{nombre}*! 👋 Bienvenido a nuestro programa de fidelización. Por cada lavado acumulas un sello, y al llegar a 8 obtienes un premio sorpresa 🎁🚗"],
-            ['type' => 'birthday', 'name' => 'Cumpleaños', 'body' => "🎂 ¡Feliz cumpleaños *{nombre}*! Como regalo, te damos un *lavado gratis* este mes. Solo presenta este mensaje. ¡Disfrútalo! 🎁"],
-            ['type' => 'reactivation', 'name' => 'Reactivación 30 días', 'body' => "Hola *{nombre}*, ¡te extrañamos! 😢 Han pasado más de 30 días desde tu última visita. Vuelve esta semana y te damos *20% de descuento* en cualquier servicio."],
-            ['type' => 'streak_bonus', 'name' => 'Racha de visitas', 'body' => "🔥 ¡*{nombre}*, llevas {racha} visitas seguidas! Como bonus, tu próximo lavado tiene un descuento especial. ¡Sigue así!"],
-            ['type' => 'raffle_winner', 'name' => 'Ganador de rifa', 'body' => "🏆 ¡FELICIDADES *{nombre}*! Eres el ganador de nuestra rifa mensual. Pasa por tu premio cuando gustes. ¡Te esperamos!"],
-            ['type' => 'level_up', 'name' => 'Subió de nivel', 'body' => "🎉 ¡*{nombre}*, subiste a nivel *{nivel}*! Ahora obtienes más beneficios cada visita. Gracias por tu lealtad 💙"],
-            ['type' => 'vip_renewal', 'name' => 'Renovación VIP', 'body' => "*{nombre}*, tu membresía VIP está por vencer. Renuévala y sigue disfrutando lavados ilimitados, descuentos exclusivos y atención prioritaria 💎"],
-            ['type' => 'package_expiring', 'name' => 'Paquete por vencer', 'body' => "Hola *{nombre}*, tu paquete prepago tiene lavados sin usar y está por vencer. ¡Aprovéchalos antes de que expire! 🚗"],
-            ['type' => 'post_visit', 'name' => 'Agradecimiento post-visita', 'body' => "Gracias *{nombre}* por tu visita 🙏 Esperamos que hayas quedado satisfecho con tu lavado. ¿Cómo lo calificarías del 1 al 5?"],
-            ['type' => 'prize_ready', 'name' => 'Premio listo', 'body' => "🎁 *{nombre}*, ¡completaste tu tarjeta de 8 sellos! Pasa a girar la ruleta y reclamar tu premio sorpresa cuando vengas."],
+            ['type' => 'welcome', 'name' => 'Bienvenida', 'body' => "¡Hola *{nombre}*! Bienvenido a nuestro programa de fidelización. Por cada lavado acumulas un sello, y al llegar a 8 obtienes un premio sorpresa."],
+            ['type' => 'birthday', 'name' => 'Cumpleaños', 'body' => "¡Feliz cumpleaños *{nombre}*! Como regalo, te damos un *lavado gratis* este mes. Solo presenta este mensaje. ¡Disfrútalo!"],
+            ['type' => 'reactivation', 'name' => 'Reactivación 30 días', 'body' => "Hola *{nombre}*, ¡te extrañamos! Han pasado más de 30 días desde tu última visita. Vuelve esta semana y te damos *20% de descuento* en cualquier servicio."],
+            ['type' => 'streak_bonus', 'name' => 'Racha de visitas', 'body' => "¡*{nombre}*, llevas {racha} visitas seguidas! Como bonus, tu próximo lavado tiene un descuento especial. ¡Sigue así!"],
+            ['type' => 'raffle_winner', 'name' => 'Ganador de rifa', 'body' => "¡FELICIDADES *{nombre}*! Eres el ganador de nuestra rifa mensual. Pasa por tu premio cuando gustes. ¡Te esperamos!"],
+            ['type' => 'level_up', 'name' => 'Subió de nivel', 'body' => "¡*{nombre}*, subiste a nivel *{nivel}*! Ahora obtienes más beneficios cada visita. Gracias por tu lealtad."],
+            ['type' => 'vip_renewal', 'name' => 'Renovación VIP', 'body' => "*{nombre}*, tu membresía VIP está por vencer. Renuévala y sigue disfrutando lavados ilimitados, descuentos exclusivos y atención prioritaria."],
+            ['type' => 'package_expiring', 'name' => 'Paquete por vencer', 'body' => "Hola *{nombre}*, tu paquete prepago tiene lavados sin usar y está por vencer. ¡Aprovéchalos antes de que expire!"],
+            ['type' => 'post_visit', 'name' => 'Agradecimiento post-visita', 'body' => "Gracias *{nombre}* por tu visita. Esperamos que hayas quedado satisfecho con tu lavado. ¿Cómo lo calificarías del 1 al 5?"],
+            ['type' => 'prize_ready', 'name' => 'Premio listo', 'body' => "*{nombre}*, ¡completaste tu tarjeta de 8 sellos! Pasa a girar la ruleta y reclamar tu premio sorpresa cuando vengas."],
         ];
 
         foreach ($whatsappTemplates as $tpl) {
@@ -118,11 +118,11 @@ class TenantInitialDataSeeder extends Seeder
         // ═══ EMAIL TEMPLATES ═══
         $emailTemplates = [
             ['type' => 'welcome', 'name' => 'Bienvenida', 'subject' => '¡Bienvenido a nuestro programa de fidelización!', 'body' => "Hola {nombre},\n\nGracias por registrarte. Por cada lavado acumulas un sello en tu tarjeta digital. Al completar 8 sellos, obtienes un premio sorpresa de nuestra ruleta.\n\n¡Te esperamos pronto!"],
-            ['type' => 'birthday', 'name' => 'Cumpleaños', 'subject' => '🎂 Feliz cumpleaños {nombre}', 'body' => "¡Feliz cumpleaños {nombre}!\n\nEste mes tienes un lavado completamente gratis como nuestro regalo. Solo menciona este correo en tu próxima visita."],
+            ['type' => 'birthday', 'name' => 'Cumpleaños', 'subject' => 'Feliz cumpleaños {nombre}', 'body' => "¡Feliz cumpleaños {nombre}!\n\nEste mes tienes un lavado completamente gratis como nuestro regalo. Solo menciona este correo en tu próxima visita."],
             ['type' => 'reactivation', 'name' => 'Reactivación 60 días', 'subject' => 'Te extrañamos, {nombre}', 'body' => "Hola {nombre},\n\nHan pasado más de 60 días desde tu última visita y queremos verte de nuevo. Tenemos un descuento especial del 25% esperándote."],
             ['type' => 'monthly_summary', 'name' => 'Resumen mensual', 'subject' => 'Tu resumen del mes en {nombre}', 'body' => "Hola {nombre},\n\nEste mes acumulaste {visitas} visitas y {puntos} puntos. Sigue así para subir de nivel y desbloquear más beneficios."],
-            ['type' => 'monthly_ranking', 'name' => 'Ranking del mes', 'subject' => 'Top clientes del mes 🏆', 'body' => "Hola {nombre},\n\nVer dónde quedaste en nuestro ranking mensual de clientes. Gracias por ser parte de nuestra comunidad."],
-            ['type' => 'raffle_winner', 'name' => 'Ganador de rifa', 'subject' => '🏆 ¡Eres el ganador de la rifa!', 'body' => "FELICIDADES {nombre},\n\nEres el ganador de nuestra rifa mensual. Pasa por tu premio cuando gustes."],
+            ['type' => 'monthly_ranking', 'name' => 'Ranking del mes', 'subject' => 'Top clientes del mes', 'body' => "Hola {nombre},\n\nVer dónde quedaste en nuestro ranking mensual de clientes. Gracias por ser parte de nuestra comunidad."],
+            ['type' => 'raffle_winner', 'name' => 'Ganador de rifa', 'subject' => '¡Eres el ganador de la rifa!', 'body' => "FELICIDADES {nombre},\n\nEres el ganador de nuestra rifa mensual. Pasa por tu premio cuando gustes."],
             ['type' => 'invoice', 'name' => 'Recibo / Factura', 'subject' => 'Tu recibo de lavado', 'body' => "Hola {nombre},\n\nGracias por tu visita. Adjunto encontrarás el detalle de tu servicio."],
             ['type' => 'vip_reminder', 'name' => 'Recordatorio VIP', 'subject' => 'Tu membresía VIP', 'body' => "Hola {nombre},\n\nTu membresía VIP está por vencer. Renuévala para seguir disfrutando lavados ilimitados y beneficios exclusivos."],
             ['type' => 'package_expiring', 'name' => 'Paquete por vencer', 'subject' => 'Tu paquete está por vencer', 'body' => "Hola {nombre},\n\nTu paquete prepago tiene lavados sin usar. Aprovéchalos antes de que expire."],
