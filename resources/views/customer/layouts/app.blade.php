@@ -15,7 +15,7 @@
 
     <style>
         :root { --brand: {{ tenant()->primary_color ?? '#10b981' }}; }
-        body { background: #0a0a0a; color: #fafafa; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { background: #0a0a0a; color: #fafafa; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; max-width: 100vw; }
         .text-brand { color: var(--brand); }
         .bg-brand { background-color: var(--brand); }
         .border-brand { border-color: var(--brand); }
