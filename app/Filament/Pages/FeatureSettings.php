@@ -3,7 +3,9 @@
 namespace App\Filament\Pages;
 
 use App\Models\Tenant;
+use App\Services\FeatureConfigChecker;
 use App\Services\Features;
+use Filament\Notifications\Actions\Action as NotificationAction;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -76,8 +78,11 @@ class FeatureSettings extends Page implements HasForms
             return;
         }
 
+        $previous = $tenant->enabled_features ?? [];
+        $next = $this->form->getState();
+
         // Guardar en la BD central. El modelo Tenant usa la conexión central.
-        $tenant->enabled_features = $this->form->getState();
+        $tenant->enabled_features = $next;
         $tenant->save();
 
         Notification::make()
@@ -85,6 +90,46 @@ class FeatureSettings extends Page implements HasForms
             ->body('Recarga la página para ver los cambios en el menú.')
             ->success()
             ->send();
+
+        // Detectar features recién activadas y sin configuración
+        $newlyEnabled = [];
+        foreach ($next as $key => $value) {
+            $wasOn = (bool) ($previous[$key] ?? false);
+            $isOn = (bool) $value;
+            if (! $wasOn && $isOn) {
+                $newlyEnabled[] = $key;
+            }
+        }
+
+        $catalog = Features::CATALOG;
+        foreach ($newlyEnabled as $feature) {
+            if (FeatureConfigChecker::isConfigured($feature)) {
+                continue;
+            }
+
+            $label = $catalog[$feature]['label'] ?? $feature;
+            $url = FeatureConfigChecker::configureUrl($feature);
+
+            $notification = Notification::make()
+                ->title("Configurar «{$label}»")
+                ->body("Acabas de activar esta función pero aún no tiene configuración. ¿Quieres configurarla ahora?")
+                ->warning()
+                ->persistent();
+
+            if ($url) {
+                $notification->actions([
+                    NotificationAction::make('configure')
+                        ->label('Configurar ahora')
+                        ->url($url)
+                        ->button(),
+                    NotificationAction::make('later')
+                        ->label('Más tarde')
+                        ->close(),
+                ]);
+            }
+
+            $notification->send();
+        }
     }
 
     protected function getFormActions(): array
