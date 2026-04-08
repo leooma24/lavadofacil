@@ -550,6 +550,21 @@ html, body, .fi-body, .fi-layout {
     box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — SOLO forms (sin tocar layout general)
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    /* Inputs no se cortan: ancho completo y min-width 0 para que el grid respete */
+    .fi-input, .fi-select-input, .fi-textarea {
+        width: 100% !important;
+        min-width: 0 !important;
+        font-size: 16px !important; /* evita zoom auto en iOS */
+    }
+    .fi-fo-field-wrp, .fi-fo-component-ctn > * { min-width: 0 !important; }
+    /* Grids del form: 1 columna en mobile para que nada se corte */
+    .fi-fo-component-ctn .grid { grid-template-columns: 1fr !important; }
+}
+
 /* Dark mode toggle button */
 .lf-theme-toggle {
     width: 38px;
