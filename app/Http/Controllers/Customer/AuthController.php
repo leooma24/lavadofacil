@@ -47,6 +47,30 @@ class AuthController extends Controller
         return redirect()->route('customer.home');
     }
 
+    /**
+     * Auto-login al cliente demo "estrella" (Carlos Méndez).
+     * Solo funciona en el tenant lavadodemo para que el visitante de la
+     * landing entre directo a ver la PWA sin teclear credenciales.
+     */
+    public function autoLoginDemo(Request $request)
+    {
+        if (tenant('id') !== 'lavadodemo') {
+            abort(404);
+        }
+
+        $customer = Customer::where('phone', '6681112233')->first()
+            ?? Customer::orderByDesc('total_visits')->first();
+
+        if (! $customer) {
+            return redirect()->route('customer.login');
+        }
+
+        Auth::guard('customer')->login($customer, true);
+        $request->session()->regenerate();
+
+        return redirect()->route('customer.home');
+    }
+
     public function logout(Request $request)
     {
         Auth::guard('customer')->logout();

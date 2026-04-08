@@ -38,6 +38,9 @@ Route::middleware([
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('customer.logout');
 
+    // Auto-login para el demo público (solo funciona en lavadodemo)
+    Route::get('/demo-entrar', [AuthController::class, 'autoLoginDemo'])->name('customer.demo.enter');
+
     // App protegida
     Route::middleware('auth:customer')->group(function () {
         Route::get('/app', [AppController::class, 'home'])->name('customer.home');

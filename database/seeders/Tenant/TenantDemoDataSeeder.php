@@ -13,6 +13,7 @@ use App\Services\VisitRegistrar;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Datos demo abundantes para el tenant: clientes, visitas históricas,
@@ -45,8 +46,33 @@ class TenantDemoDataSeeder extends Seeder
         $this->seedVipSubscriptions($customers);
         $this->seedSurveys($customers);
         $this->seedMonthlyChallenge($customers);
+        $this->polishStarCustomer();
 
         $this->command->info('✓ Demo data sembrada: '.Customer::count().' clientes');
+    }
+
+    /**
+     * Refina al cliente "estrella" del demo (Carlos Méndez, 6681112233)
+     * para que cuando alguien entre al auto-login vea la app en su mejor
+     * estado: nivel Oro, VIP, PIN fijo 1234, stats impresionantes.
+     */
+    private function polishStarCustomer(): void
+    {
+        $star = Customer::where('phone', '6681112233')->first();
+        if (! $star) return;
+
+        $star->update([
+            'pin_code' => '1234',
+            'level' => 'gold',
+            'is_vip' => true,
+            'vip_until' => now()->addMonths(6),
+            'total_visits' => max(25, (int) $star->total_visits),
+            'total_spent' => max(12500, (float) $star->total_spent),
+            'points_balance' => 850,
+            'current_streak' => 6,
+            'longest_streak' => 8,
+            'whatsapp_opt_in' => true,
+        ]);
     }
 
     private function seedAppointments($customers): void

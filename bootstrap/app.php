@@ -12,14 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         // Redirección por defecto cuando un guest entra a una ruta protegida.
-        // Para el guard 'customer' de la PWA del tenant, redirigimos al login
-        // del tenant actual (path-based, {tenant} viene del URL::defaults).
         $middleware->redirectGuestsTo(function ($request) {
             if ($request->routeIs('customer.*') || str_starts_with($request->path(), tenant('id') ?? '___')) {
                 return route('customer.login');
             }
             return null;
         });
+
+        // Demo read-only: en el tenant `lavadodemo` ningún cambio persiste
+        // (transacción que se hace rollback al terminar el request).
+        $middleware->appendToGroup('web', \App\Http\Middleware\DemoReadOnly::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
