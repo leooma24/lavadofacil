@@ -13,7 +13,7 @@ class User extends Authenticatable implements FilamentUser
 
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'avatar',
-        'role', 'is_active', 'last_login_at',
+        'role', 'is_active', 'last_login_at', 'must_change_password',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -23,6 +23,7 @@ class User extends Authenticatable implements FilamentUser
         'last_login_at' => 'datetime',
         'password' => 'hashed',
         'is_active' => 'boolean',
+        'must_change_password' => 'boolean',
     ];
 
     public function canAccessPanel(Panel $panel): bool

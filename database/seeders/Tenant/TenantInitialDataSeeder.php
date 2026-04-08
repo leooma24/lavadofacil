@@ -40,6 +40,7 @@ class TenantInitialDataSeeder extends Seeder
                 'phone' => $tenant->owner_phone,
                 'role' => 'owner',
                 'is_active' => true,
+                'must_change_password' => true,
                 'email_verified_at' => now(),
             ]
         );

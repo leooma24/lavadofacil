@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('{tenant}/admin')
             ->login()
+            ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->brandName('LavadoFácil')
             ->brandLogo(asset('images/lavadofacil_logo.png'))
             ->brandLogoHeight('2.5rem')
@@ -79,6 +80,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\ForcePasswordChange::class,
             ]);
     }
 }
