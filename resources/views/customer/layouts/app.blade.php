@@ -16,22 +16,24 @@
     <style>
         :root { --brand: {{ tenant()->primary_color ?? '#10b981' }}; }
         html, body { background: #0a0a0a; color: #fafafa; font-family: 'Inter', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; max-width: 100vw; }
-        /* Mesh + grid decorativo fijo detrás del contenido */
+        /* Mesh derivado del brand del tenant (fix #9) */
         body::before {
             content: '';
             position: fixed; inset: 0; z-index: -2; pointer-events: none;
             background:
-                radial-gradient(circle at 20% 0%, rgba(14,165,233,0.18), transparent 50%),
-                radial-gradient(circle at 80% 30%, rgba(6,182,212,0.15), transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(59,130,246,0.12), transparent 50%);
+                radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 55%),
+                radial-gradient(circle at 82% 28%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 55%),
+                radial-gradient(circle at 40% 85%, color-mix(in srgb, var(--brand) 12%, transparent), transparent 55%);
         }
+        /* Grid más sutil (fix #2) */
         body::after {
             content: '';
-            position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.35;
+            position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.15;
             background-image:
-                linear-gradient(rgba(14,165,233,0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(14,165,233,0.08) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(color-mix(in srgb, var(--brand) 10%, transparent) 1px, transparent 1px),
+                linear-gradient(90deg, color-mix(in srgb, var(--brand) 10%, transparent) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 80%);
         }
         .text-brand { color: var(--brand); }
         .bg-brand { background-color: var(--brand); }
@@ -39,14 +41,20 @@
         .focus\:border-brand:focus { border-color: var(--brand); }
         .from-brand { --tw-gradient-from: var(--brand); --tw-gradient-to: rgb(0 0 0 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
         .shadow-brand\/30 { --tw-shadow-color: color-mix(in srgb, var(--brand) 30%, transparent); --tw-shadow: var(--tw-shadow-colored); }
-        .glow { box-shadow: 0 0 20px color-mix(in srgb, var(--brand) 15%, transparent); }
+        .glow { box-shadow: 0 0 24px color-mix(in srgb, var(--brand) 18%, transparent); }
+        .glow-strong { box-shadow: 0 8px 40px -8px color-mix(in srgb, var(--brand) 50%, transparent), 0 0 0 1px color-mix(in srgb, var(--brand) 25%, transparent); }
         .glass {
             background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.08);
         }
+        .glass-soft {
+            background: rgba(255,255,255,0.035);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
         .stamp-filled {
-            background: radial-gradient(circle at 30% 30%, var(--brand), #047857);
+            background: radial-gradient(circle at 30% 30%, var(--brand), color-mix(in srgb, var(--brand) 60%, #000));
             box-shadow: 0 4px 12px color-mix(in srgb, var(--brand) 40%, transparent), inset 0 1px 0 rgba(255,255,255,0.3);
         }
         .stamp-empty {
@@ -55,13 +63,27 @@
         }
         @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 20px color-mix(in srgb, var(--brand) 30%, transparent); } 50% { box-shadow: 0 0 30px color-mix(in srgb, var(--brand) 60%, transparent); } }
         .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        /* Bounce del sello recién ganado (fix #10) */
+        @keyframes stamp-pop {
+            0%   { transform: scale(0.4) rotate(-12deg); opacity: 0; }
+            55%  { transform: scale(1.18) rotate(4deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        .stamp-pop { animation: stamp-pop 0.9s cubic-bezier(0.17, 0.89, 0.32, 1.28) 0.15s both; }
+        @keyframes stamp-sparkle {
+            0%   { transform: scale(0) rotate(0); opacity: 0; }
+            40%  { transform: scale(1) rotate(90deg); opacity: 1; }
+            100% { transform: scale(0) rotate(180deg); opacity: 0; }
+        }
+        .stamp-sparkle { animation: stamp-sparkle 1.2s ease-out 0.6s both; }
         .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 1rem); }
+        .safe-top { padding-top: max(env(safe-area-inset-top), 1.5rem); }
         @keyframes spin-wheel { 0% { transform: rotate(0); } 100% { transform: rotate(var(--spin-end, 1800deg)); } }
         .wheel-spin { animation: spin-wheel 4s cubic-bezier(0.17, 0.67, 0.16, 0.99) forwards; }
     </style>
 </head>
 <body class="font-sans min-h-screen pb-24">
-    <main class="max-w-md mx-auto px-5 pt-8">
+    <main class="max-w-md mx-auto px-5 safe-top">
         @yield('content')
     </main>
 

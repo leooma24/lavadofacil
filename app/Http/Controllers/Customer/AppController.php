@@ -38,6 +38,8 @@ class AppController extends Controller
         $stamps = $customer->loyaltyCard?->stamps_count ?? 0;
         $stampsTotal = 8;
         $stampsLeft = max(0, $stampsTotal - $stamps);
+        $lastStampAt = $customer->loyaltyCard?->last_stamp_at;
+        $hasRecentStamp = $lastStampAt && $lastStampAt->gt(now()->subHour());
 
         // ¿Tiene un premio recién ganado sin reclamar para mostrar la ruleta?
         $unclaimedSpin = PrizeSpin::with('prize')
@@ -64,7 +66,7 @@ class AppController extends Controller
 
         return view('customer.pages.home', compact(
             'customer', 'visitsMonth', 'spentMonth', 'raffle', 'raffleTickets',
-            'stamps', 'stampsTotal', 'stampsLeft', 'unclaimedSpin', 'pendingSurveyVisit',
+            'stamps', 'stampsTotal', 'stampsLeft', 'hasRecentStamp', 'unclaimedSpin', 'pendingSurveyVisit',
             'readyAppointment',
         ));
     }
