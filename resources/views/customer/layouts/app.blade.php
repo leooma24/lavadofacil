@@ -6,9 +6,12 @@
     <meta name="theme-color" content="{{ tenant()->primary_color ?? '#10b981' }}">
     <title>{{ tenant()->name }}</title>
 
-    <link rel="manifest" href="{{ url('/manifest.webmanifest') }}">
+    <link rel="manifest" href="{{ route('customer.manifest', ['tenant' => tenant('id')]) }}">
     <link rel="icon" href="{{ asset('images/lavadofacil_icon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/lavadofacil_icon.png') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">

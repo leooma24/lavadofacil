@@ -33,6 +33,39 @@ Route::middleware([
         ? redirect()->route('customer.home', ['tenant' => tenant('id')])
         : redirect()->route('customer.login', ['tenant' => tenant('id')]))->name('tenant.home');
 
+    // PWA manifest dinámico por tenant — start_url/scope con el slug para que
+    // al instalar como acceso directo abra la URL correcta y no /app (que
+    // stancl intentaría resolver como tenant y devolvería 500).
+    Route::get('/manifest.webmanifest', function () {
+        $t = tenant();
+        $slug = $t->id;
+        return response()->json([
+            'name' => $t->name,
+            'short_name' => $t->name,
+            'description' => 'Programa de fidelización de '.$t->name,
+            'start_url' => '/'.$slug.'/app',
+            'scope' => '/'.$slug.'/',
+            'display' => 'standalone',
+            'orientation' => 'portrait',
+            'background_color' => '#0a0a0a',
+            'theme_color' => $t->primary_color ?? '#10b981',
+            'icons' => [
+                [
+                    'src' => '/images/lavadofacil_icon.png',
+                    'sizes' => '192x192',
+                    'type' => 'image/png',
+                    'purpose' => 'any maskable',
+                ],
+                [
+                    'src' => '/images/lavadofacil_icon.png',
+                    'sizes' => '512x512',
+                    'type' => 'image/png',
+                    'purpose' => 'any maskable',
+                ],
+            ],
+        ], 200, ['Content-Type' => 'application/manifest+json']);
+    })->name('customer.manifest');
+
     // Auth público
     Route::get('/login', [AuthController::class, 'showLogin'])->name('customer.login');
     Route::post('/login', [AuthController::class, 'login']);

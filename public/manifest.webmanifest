@@ -1,8 +1,8 @@
 {
     "name": "LavadoFácil",
     "short_name": "LavadoFácil",
-    "description": "Programa de fidelización de tu car wash",
-    "start_url": "/app",
+    "description": "Programa de fidelización para car washes",
+    "start_url": "/",
     "scope": "/",
     "display": "standalone",
     "orientation": "portrait",
